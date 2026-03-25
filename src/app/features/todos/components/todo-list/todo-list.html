@@ -1,1 +1,52 @@
-<p>todo-list works!</p>
+<div class="board" cdkDropListGroup>
+  <!-- TODO -->
+  <div
+    class="column"
+    cdkDropList
+    [cdkDropListData]="todoList"
+    [cdkDropListConnectedTo]="['inProgressList', 'doneList']"
+    id="todoList"
+    (cdkDropListDropped)="drop($event, 'TODO')"
+  >
+    <h3>Todo</h3>
+
+    <div *ngFor="let t of todoList" cdkDrag class="card">
+      {{ t.title }}
+      <span (click)="delete(t.id!)">🗑</span>
+    </div>
+  </div>
+
+  <!-- IN PROGRESS -->
+  <div
+    class="column"
+    cdkDropList
+    [cdkDropListData]="inProgressList"
+    [cdkDropListConnectedTo]="['todoList', 'doneList']"
+    id="inProgressList"
+    (cdkDropListDropped)="drop($event, 'IN_PROGRESS')"
+  >
+    <h3>In Progress</h3>
+
+    <div *ngFor="let t of inProgressList" cdkDrag class="card">
+      {{ t.title }}
+      <span (click)="delete(t.id!)">🗑</span>
+    </div>
+  </div>
+
+  <!-- DONE -->
+  <div
+    class="column"
+    cdkDropList
+    [cdkDropListData]="doneList"
+    [cdkDropListConnectedTo]="['todoList', 'inProgressList']"
+    id="doneList"
+    (cdkDropListDropped)="drop($event, 'DONE')"
+  >
+    <h3>Done</h3>
+
+    <div *ngFor="let t of doneList" cdkDrag class="card">
+      {{ t.title }}
+      <span (click)="delete(t.id!)">🗑</span>
+    </div>
+  </div>
+</div>

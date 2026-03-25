@@ -1,0 +1,66 @@
+.board {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* EACH COLUMN = SEPARATE BLOCK */
+.column {
+  width: 33%;
+  background: #f4f5f7;
+  padding: 15px;
+  border-radius: 10px;
+  min-height: 400px;
+}
+
+/* HEADERS */
+.column h3 {
+  margin-bottom: 10px;
+}
+
+/* CARDS */
+.card {
+  background: white;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  cursor: grab;
+  border-bottom: 1px solid #ddd;
+}
+
+/* TITLE */
+.title {
+  font-weight: 500;
+}
+
+/* TIME */
+.time {
+  font-size: 12px;
+  color: gray;
+}
+
+/* STATUS COLORS */
+.progress-card {
+  background: #fff7ed;
+}
+
+.done-card {
+  background: #dcfce7;
+  text-decoration: line-through;
+}
+
+/* DELETE ICON */
+.delete {
+  float: right;
+  cursor: pointer;
+}
+
+.cdk-drag-preview {
+  background: white;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.3;
+}

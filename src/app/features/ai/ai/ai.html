@@ -1,1 +1,6 @@
-<p>ai works!</p>
+<textarea #input></textarea>
+<button (click)="generate(input.value)">Generate</button>
+
+<ul>
+  <li *ngFor="let t of todos">{{ t.title }} ({{ t.startTime }} → {{ t.endTime }})</li>
+</ul>
