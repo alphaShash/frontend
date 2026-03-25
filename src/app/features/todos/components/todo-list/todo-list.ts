@@ -1,8 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal,OnInit  } from '@angular/core';
 import { TodoApiService } from '../../../../core/services/todo-api.service';
 import { Todo } from '../../../../shared/models/todo.model';
 import { CommonModule } from '@angular/common';
 import { DragDropModule, CdkDragDrop, transferArrayItem, moveItemInArray } from '@angular/cdk/drag-drop';
+import { TodoStore } from '../../../../core/store/todo.store';
 
 @Component({
   selector: 'app-todo-list',
@@ -11,15 +12,22 @@ import { DragDropModule, CdkDragDrop, transferArrayItem, moveItemInArray } from 
   templateUrl: './todo-list.html',
   styleUrl: './todo-list.css',
 })
-export class TodoList {
+
+export class TodoList implements OnInit  {
   todoList: Todo[] = [];
   inProgressList: Todo[] = [];
   doneList: Todo[] = [];
 
-  constructor(private api: TodoApiService) {
+  constructor(public store: TodoStore,private api: TodoApiService) {
     this.load();
   }
 
+  ngOnInit() {
+    this.api.getAll().subscribe(data => {
+      this.store.setTodos(data);
+    });
+  }
+  
   load() {
     this.api.getAll().subscribe(data => {
       this.todoList = data.filter(t => t.status === 'TODO');
@@ -28,29 +36,28 @@ export class TodoList {
     });
   }
 
-  drop(event: CdkDragDrop<Todo[]>, status: string) {
+  drop(event: CdkDragDrop<any>, status: string) {
 
-    if (event.previousContainer !== event.container) {
-      const item = event.previousContainer.data[event.previousIndex];
+    if (event.previousContainer === event.container) return;
 
-      item.status = status as any;
+    const item = event.previousContainer.data[event.previousIndex];
 
-      // ⚡ update UI instantly
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
+    // update status
+    item.status = status as any;
 
-      // async backend update
-      this.api.update(item).subscribe();
-    }
+    // update store (THIS IS KEY)
+    this.store.update(item);
+
+    // backend sync
+    this.api.update(item).subscribe();
   }
 
   delete(id: number) {
-    this.api.delete(id).subscribe(() => this.load());
-  }
+
+  this.store.delete(id);
+
+  this.api.delete(id).subscribe();
+}
 
   reloadTodos() {
     this.load();
@@ -58,11 +65,11 @@ export class TodoList {
 
   addLocal(todo: Todo) {
     if (todo.status === 'TODO') {
-      this.todoList.push(todo);
+      this.todoList.unshift(todo); // 👈 add at top (better UX)
     } else if (todo.status === 'IN_PROGRESS') {
-      this.inProgressList.push(todo);
+      this.inProgressList.unshift(todo);
     } else {
-      this.doneList.push(todo);
+      this.doneList.unshift(todo);
     }
   }
 }

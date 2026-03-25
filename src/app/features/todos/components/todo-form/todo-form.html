@@ -1,4 +1,9 @@
 <div class="form">
-  <input [(ngModel)]="title" placeholder="New todo" />
+  <input [(ngModel)]="title" placeholder="Task title" />
+
+  <input type="time" [(ngModel)]="startTime" />
+
+  <input type="time" [(ngModel)]="endTime" />
+
   <button (click)="add()">Add</button>
 </div>

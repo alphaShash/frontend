@@ -25,4 +25,10 @@ export class App {
   reloadTodos() {
     this.todoList.load(); // only for AI bulk
   }
+
+  onTodosGenerated(todos: Todo[]) {
+    todos.forEach(todo => {
+      this.todoList.addLocal(todo); 
+    });
+  }
 }

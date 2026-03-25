@@ -3,16 +3,20 @@
   <div
     class="column"
     cdkDropList
-    [cdkDropListData]="todoList"
+    [cdkDropListData]="store.todoList()"
     [cdkDropListConnectedTo]="['inProgressList', 'doneList']"
     id="todoList"
     (cdkDropListDropped)="drop($event, 'TODO')"
   >
     <h3>Todo</h3>
 
-    <div *ngFor="let t of todoList" cdkDrag class="card">
-      {{ t.title }}
-      <span (click)="delete(t.id!)">🗑</span>
+    <div *ngFor="let t of store.todoList()" cdkDrag class="card">
+      <div>
+        <strong>{{ t.title }}</strong>
+        <div class="time">{{ t.startTime }} → {{ t.endTime }}</div>
+      </div>
+
+      <span class="delete" (click)="delete(t.id!)">🗑</span>
     </div>
   </div>
 
@@ -20,16 +24,20 @@
   <div
     class="column"
     cdkDropList
-    [cdkDropListData]="inProgressList"
+    [cdkDropListData]="store.inProgressList()"
     [cdkDropListConnectedTo]="['todoList', 'doneList']"
     id="inProgressList"
     (cdkDropListDropped)="drop($event, 'IN_PROGRESS')"
   >
     <h3>In Progress</h3>
 
-    <div *ngFor="let t of inProgressList" cdkDrag class="card">
-      {{ t.title }}
-      <span (click)="delete(t.id!)">🗑</span>
+    <div *ngFor="let t of store.inProgressList()" cdkDrag class="card">
+      <div>
+        <strong>{{ t.title }}</strong>
+        <div class="time">{{ t.startTime }} → {{ t.endTime }}</div>
+      </div>
+
+      <span class="delete" (click)="delete(t.id!)">🗑</span>
     </div>
   </div>
 
@@ -37,16 +45,20 @@
   <div
     class="column"
     cdkDropList
-    [cdkDropListData]="doneList"
+    [cdkDropListData]="store.doneList()"
     [cdkDropListConnectedTo]="['todoList', 'inProgressList']"
     id="doneList"
     (cdkDropListDropped)="drop($event, 'DONE')"
   >
     <h3>Done</h3>
 
-    <div *ngFor="let t of doneList" cdkDrag class="card">
-      {{ t.title }}
-      <span (click)="delete(t.id!)">🗑</span>
+    <div *ngFor="let t of store.doneList()" cdkDrag class="card">
+      <div>
+        <strong>{{ t.title }}</strong>
+        <div class="time">{{ t.startTime }} → {{ t.endTime }}</div>
+      </div>
+
+      <span class="delete" (click)="delete(t.id!)">🗑</span>
     </div>
   </div>
 </div>

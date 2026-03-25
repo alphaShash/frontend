@@ -25,7 +25,24 @@
   margin-bottom: 10px;
   border-radius: 8px;
   cursor: grab;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   border-bottom: 1px solid #ddd;
+}
+
+.delete {
+  cursor: pointer;
+  color: red;
+  font-size: 18px;
+}
+
+.card:hover .delete {
+  opacity: 1;
+}
+
+.delete {
+  opacity: 0.6;
 }
 
 /* TITLE */

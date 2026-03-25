@@ -30,7 +30,7 @@
 
       <div class="column">
         <h3>AI Planner</h3>
-        <app-ai (todosCreated)="reloadTodos()"></app-ai>
+        <app-ai (todosCreated)="onTodosGenerated($event)"></app-ai>
       </div>
     </section>
   </main>

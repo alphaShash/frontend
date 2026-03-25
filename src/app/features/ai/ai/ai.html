@@ -1,5 +1,5 @@
-<textarea #input></textarea>
-<button (click)="generate(input.value)">Generate</button>
+<textarea [(ngModel)]="inputText" placeholder="Enter your tasks"></textarea>
+<button (click)="generate()">Generate</button>
 
 <ul>
   <li *ngFor="let t of todos">{{ t.title }} ({{ t.startTime }} → {{ t.endTime }})</li>
